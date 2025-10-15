@@ -1,0 +1,104 @@
+/* Reset default margins and paddings */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+   justify-content: center;
+}
+
+/* Full-page centered background */
+.auth-page {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+ 
+  align-items: center;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden;
+}
+
+/* Form container */
+.auth-form {
+  background: #fff;
+  padding: 2.5rem 2rem;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+/* Headings */
+.auth-form h2 {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+/* Inputs & select */
+.auth-form input,
+.auth-form select {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  margin: 0.6rem 0;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 1rem;
+  outline: none;
+  transition: 0.2s;
+}
+
+.auth-form input:focus,
+.auth-form select:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 8px rgba(102, 126, 234, 0.3);
+}
+
+/* Button */
+.auth-form button {
+  width: 100%;
+  padding: 0.9rem;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.auth-form button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* Error message */
+.auth-error {
+  color: #e74c3c;
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+}
+
+/* Bottom text */
+.auth-text {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.auth-text a {
+  color: #667eea;
+  text-decoration: none;
+}
+
+.auth-text a:hover {
+  text-decoration: underline;
+}
+
+/* Make page responsive */
+@media (max-width: 480px) {
+  .auth-form {
+    padding: 2rem 1.5rem;
+    width: 95%;
+  }
+}

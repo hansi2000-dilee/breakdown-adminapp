@@ -1,0 +1,92 @@
+.tech-dashboard {
+  padding: 2rem;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.logout-btn {
+  padding: 0.5rem 1rem;
+  background-color: #f56565;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.logout-btn:hover {
+  background-color: #e53e3e;
+}
+
+.dashboard-section {
+  margin-bottom: 2rem;
+}
+
+.task-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  list-style: none;
+}
+
+.task-card {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.task-title {
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+}
+
+.task-desc, .task-status, .task-reporter, .task-note {
+  font-size: 0.9rem;
+  color: #555;
+  margin: 0.2rem 0;
+}
+
+.task-actions {
+  margin-top: 0.8rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.btn-start { background: #3182ce; color: #fff; }
+.btn-start:hover { background: #2b6cb0; }
+
+.btn-save { background: #48bb78; color: #fff; }
+.btn-save:hover { background: #38a169; }
+
+.btn-complete { background: #ed8936; color: #fff; }
+.btn-complete:hover { background: #dd6b20; }
+
+.task-note-input {
+  flex: 1;
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.no-tasks {
+  padding: 1rem;
+  color: #555;
+  font-style: italic;
+}
