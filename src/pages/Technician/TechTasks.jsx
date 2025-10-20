@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { update, ref as dbRef, onValue, ref } from "firebase/database";
+import { ref as dbRef, onValue, update, ref } from "firebase/database";
 import { db } from "../../firebase";
-import './TechDashboard.css';
+import { Edit3 } from "lucide-react";
+import "./TechDashboard.css";
 
-export default function TechTasks({ items, completed }) {
-  const [note, setNote] = useState("");
+export default function TechTasks({ items }) {
   const [reporterEmails, setReporterEmails] = useState({});
+  const [selectedTask, setSelectedTask] = useState(null);
+  const [updatedStatus, setUpdatedStatus] = useState("");
+  const [updatedNote, setUpdatedNote] = useState("");
 
+  // 🔹 Load reporter emails
   useEffect(() => {
     const usersRef = ref(db, "users");
     const unsubscribe = onValue(usersRef, (snap) => {
@@ -21,67 +25,110 @@ export default function TechTasks({ items, completed }) {
     return () => unsubscribe();
   }, []);
 
-  async function start(id) {
-    await update(dbRef(db, `breakdowns/${id}`), {
-      status: "in_progress",
-      updatedAt: Date.now(),
-    });
+  // 🔹 Open modal with selected task
+  function openEditModal(task) {
+    setSelectedTask(task);
+    setUpdatedStatus(task.status);
+    setUpdatedNote(task.note || "");
   }
 
-  async function complete(id) {
-    await update(dbRef(db, `breakdowns/${id}`), {
-      status: "completed",
-      updatedAt: Date.now(),
-    });
-  }
-
-  async function addNote(id) {
-    if (!note) return;
-    await update(dbRef(db, `breakdowns/${id}`), {
-      note,
+  // 🔹 Save updates to Firebase
+  async function saveUpdates() {
+    if (!selectedTask) return;
+    await update(dbRef(db, `breakdowns/${selectedTask.id}`), {
+      status: updatedStatus,
+      note: updatedNote,
       noteUpdatedAt: Date.now(),
     });
-    setNote("");
+    alert("Task updated successfully!");
+    setSelectedTask(null);
   }
 
-  if (!items || items.length === 0) return <div className="no-tasks">No tasks found</div>;
+  if (!items || items.length === 0)
+    return <div className="no-tasks">No tasks found</div>;
 
   return (
-    <ul className="task-list">
-      {items.map((it) => (
-        <li key={it.id} className="task-card">
-          <div className="task-info">
-            <strong className="task-title">{it.title}</strong>
+    <>
+      <ul className="task-list">
+        {items.map((it) => (
+          <li key={it.id} className="task-card">
+            <div className="task-header">
+              <strong className="task-title">{it.title}</strong>
+              <button
+                className="edit-btn"
+                title="Edit Task"
+                onClick={() => openEditModal(it)}
+              >
+                <Edit3 size={18} />
+              </button>
+            </div>
+
             <p className="task-desc">{it.description}</p>
-            <p className="task-status">Status: <span>{it.status}</span></p>
+            <p className="task-status">
+              <strong>Status:</strong>{" "}
+              <span className={`status-badge status-${it.status}`}>
+                {it.status}
+              </span>
+            </p>
             {it.reporterUid && (
               <p className="task-reporter">
-                Reporter: {reporterEmails[it.reporterUid] || it.reporterUid}
+                <strong>Reporter:</strong>{" "}
+                {reporterEmails[it.reporterUid] || it.reporterUid}
               </p>
             )}
-            {completed && it.note && <p className="task-note">📝 Note: {it.note}</p>}
-          </div>
+            {it.note && (
+              <p className="task-note">
+                <strong>Note:</strong> {it.note}
+              </p>
+            )}
+          </li>
+        ))}
+      </ul>
 
-          {!completed && (
-            <div className="task-actions">
-              {it.status !== "in_progress" && it.status !== "completed" && (
-                <button className="btn btn-start" onClick={() => start(it.id)}>Start</button>
-              )}
-              <input
-                type="text"
-                className="task-note-input"
-                placeholder="Add note"
-                value={note}
-                onChange={(e) => setNote(e.target.value)}
-              />
-              <button className="btn btn-save" onClick={() => addNote(it.id)}>Save</button>
-              {it.status !== "completed" && (
-                <button className="btn btn-complete" onClick={() => complete(it.id)}>Mark Completed</button>
-              )}
+      {/* 🔹 Edit Modal */}
+      {selectedTask && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h3>Edit Task</h3>
+            <p>
+              <strong>Task:</strong> {selectedTask.title}
+            </p>
+            <p>
+              <strong>Description:</strong> {selectedTask.description}
+            </p>
+
+            <label>Status</label>
+            <select
+              value={updatedStatus}
+              onChange={(e) => setUpdatedStatus(e.target.value)}
+            >
+              <option value="assigned">Assigned</option>
+              <option value="in_progress">In Progress</option>
+              <option value="completed">Completed</option>
+              <option value="closed">Closed</option>
+            </select>
+
+            <label>Technician Note</label>
+            <textarea
+              value={updatedNote}
+              onChange={(e) => setUpdatedNote(e.target.value)}
+              placeholder="Add or update technician note..."
+            />
+
+            <div className="modal-actions">
+              <button className="btn btn-save" onClick={saveUpdates}>
+                Save Changes
+              </button>
+              <button
+                className="btn btn-cancel"
+                onClick={() => setSelectedTask(null)}
+              >
+                Cancel
+              </button>
             </div>
-          )}
-        </li>
-      ))}
-    </ul>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

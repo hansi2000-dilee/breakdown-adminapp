@@ -30,10 +30,13 @@
 
 .task-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(2, 1fr); /* 🔹 exactly 2 cards per row */
   gap: 1rem;
   list-style: none;
+  padding: 0;
+  margin: 0;
 }
+
 
 .task-card {
   background: #fff;
@@ -53,40 +56,132 @@
   margin: 0.2rem 0;
 }
 
-.task-actions {
-  margin-top: 0.8rem;
+
+
+.task-header {
   display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+
+
+.task-status,
+.task-reporter,
+.task-note {
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.status-badge {
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.status-assigned {
+  background: #fff6cc;
+  color: #b58900;
+}
+
+.status-in_progress {
+  background: #d9ecff;
+  color: #0366d6;
+}
+
+.status-completed {
+  background: #d5f5d3;
+  color: #2e7d32;
+}
+
+.status-closed {
+  background: #fddede;
+  color: #c62828;
+}
+
+.edit-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #666;
+  transition: color 0.2s;
+}
+.edit-btn:hover {
+  color: #222;
+}
+/* 🔹 Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 420px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.modal h3 {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.modal label {
+  display: block;
+  margin-top: 0.8rem;
+  font-weight: 600;
+}
+
+.modal textarea,
+.modal select {
+  width: 100%;
+  padding: 0.6rem;
+  margin-top: 0.4rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+}
+
+.modal-actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.8rem;
 }
 
 .btn {
-  padding: 0.4rem 0.8rem;
+  padding: 0.5rem 1rem;
   border-radius: 8px;
   border: none;
   cursor: pointer;
-  font-weight: 600;
-  transition: 0.2s;
+  transition: background 0.3s;
 }
 
-.btn-start { background: #3182ce; color: #fff; }
-.btn-start:hover { background: #2b6cb0; }
-
-.btn-save { background: #48bb78; color: #fff; }
-.btn-save:hover { background: #38a169; }
-
-.btn-complete { background: #ed8936; color: #fff; }
-.btn-complete:hover { background: #dd6b20; }
-
-.task-note-input {
-  flex: 1;
-  padding: 0.4rem 0.6rem;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+.btn-save {
+  background: #4caf50;
+  color: white;
 }
 
-.no-tasks {
-  padding: 1rem;
-  color: #555;
-  font-style: italic;
+.btn-save:hover {
+  background: #449d48;
+}
+
+.btn-cancel {
+  background: #ccc;
+}
+
+.btn-cancel:hover {
+  background: #bbb;
 }

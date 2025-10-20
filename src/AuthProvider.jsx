@@ -27,7 +27,7 @@ const unsub = onValue(userRef, (snap) => {
 setProfile(snap.exists() ? snap.val() : null);
 setLoading(false);
 });
-// onAuthStateChange listener cleanup doesn't remove onValue; keep simple
+
 });
 return () => un();
 }, []);
